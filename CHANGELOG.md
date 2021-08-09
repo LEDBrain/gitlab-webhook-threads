@@ -17,6 +17,7 @@
 
 ### Miscellaneous
 
+- 📝 generate changelog [[bdbfa08](https://github.com/LEDBrain/gitlab-webhook-threads/commit/bdbfa089cde4ac5097f1318aeb0bba44eb39bebe)]
 - 📝 write docs [[fcf12bf](https://github.com/LEDBrain/gitlab-webhook-threads/commit/fcf12bffbe32dafa5642c17aa52999810fcd6d45)]
 - 🔀 Merge pull request [#2](https://github.com/LEDBrain/gitlab-webhook-threads/issues/2) from LEDBrain/renovate/pin-dependencies [[4cc8950](https://github.com/LEDBrain/gitlab-webhook-threads/commit/4cc89500c34e00ad9a0f454d4677d0a14479639b)]
 - 🔀 Merge pull request [#1](https://github.com/LEDBrain/gitlab-webhook-threads/issues/1) from LEDBrain/renovate/configure [[9713eee](https://github.com/LEDBrain/gitlab-webhook-threads/commit/9713eeebb41fc9e31770e1c93b748218839592e5)]
