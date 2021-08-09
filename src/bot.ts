@@ -1,9 +1,9 @@
-const { Client, Intents } = require('discord.js');
+import { Client, Intents, Message, TextChannel } from 'discord.js';
 require('dotenv').config();
 
-require('./server.js');
+import './server';
 
-const WebhookEvent = require('./events/WebhookEvent.js');
+import WebhookEvent from './events/WebhookEvent';
 
 const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
@@ -13,26 +13,33 @@ client.once('ready', () => {
     console.log('Logged in as', client.user.tag);
 });
 
-WebhookEvent.on('post', async (post) => {
+WebhookEvent.on('post', async (post: Message) => {
     console.log(post);
 
     const regex =
-        /(?<=\[LEDBrain \/ ).+(?: \/ .+)*?(?=]\(https:\/\/gitlab\.com\/ledbrain\/[a-z\-\/]+\))/;
+        /(?<=\[(LEDBrain \/ |)).+(?: \/ .+)*?(?=]\(https:\/\/gitlab\.com\/ledbrain\/[a-z\-\/]+\))/;
 
     const matches = post.embeds[0].description.match(regex);
 
     if (!matches) return;
 
-    const channel = await client.channels.fetch(process.env.CHANNEL_ID);
+    matches[0] = matches[0].replace(`${process.env.GITLAB_ORG_NAME} / `, '');
+
+    const channel = (await client.channels.fetch(
+        process.env.CHANNEL_ID
+    )) as TextChannel;
 
     const allThreads = (
         await channel.threads.fetchActive(false)
-    ).threads.concat((await channel.threads.fetchArchived(false)).threads);
+    ).threads.concat(
+        (await channel.threads.fetchArchived({ fetchAll: true }, false)).threads
+    );
 
     let thread = allThreads.find((th) => th.name === matches[0]);
 
     thread ??= await channel.threads.create({
         name: matches[0],
+        autoArchiveDuration: 60,
     });
 
     thread.send({ embeds: post.embeds });

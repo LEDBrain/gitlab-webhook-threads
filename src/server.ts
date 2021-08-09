@@ -5,7 +5,7 @@ const port = process.env.PORT || 3000;
 app.use(require('body-parser').urlencoded({ extended: false }));
 app.use(require('body-parser').json());
 
-const WebhookEvent = require('./events/WebhookEvent');
+import WebhookEvent from './events/WebhookEvent';
 
 app.post('/incoming', (req, res) => {
     console.log(req.body);
