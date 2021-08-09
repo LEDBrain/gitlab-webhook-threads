@@ -25,15 +25,15 @@ WebhookEvent.on('post', async (post) => {
 
     const channel = await client.channels.fetch(process.env.CHANNEL_ID);
 
-    let thread = (
-        await channel.threads.fetch(null, { force: true })
-    ).threads.find((th) => th.name === matches[0]);
+    const allThreads = (
+        await channel.threads.fetchActive(false)
+    ).threads.concat((await channel.threads.fetchArchived(false)).threads);
 
-    if (!thread) {
-        thread = await channel.threads.create({
-            name: matches[0],
-        });
-    }
+    let thread = allThreads.find((th) => th.name === matches[0]);
+
+    thread ??= await channel.threads.create({
+        name: matches[0],
+    });
 
     thread.send({ embeds: post.embeds });
 });
