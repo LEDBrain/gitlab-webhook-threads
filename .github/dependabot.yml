@@ -1,14 +1,14 @@
 version: 2
 updates:
   - package-ecosystem: 'npm'
-      directory: '/' # Location of package manifests
-      schedule:
-          interval: 'daily'
-      assignees:
-          - 'kdev'
-      commit-message:
-          prefix: '⬆️'
-          include: 'scope'
-      reviewers:
-          - 'kdev'
-      open-pull-requests-limit: 10
+    directory: '/' # Location of package manifests
+    schedule:
+        interval: 'daily'
+    assignees:
+        - 'kdev'
+    commit-message:
+        prefix: '⬆️'
+        include: 'scope'
+    reviewers:
+        - 'kdev'
+    open-pull-requests-limit: 10
