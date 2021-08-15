@@ -16,8 +16,8 @@ client.once('ready', () => {
 WebhookEvent.on('post', async (post: Message) => {
     console.log(post);
 
-    const regex =
-        /(?<=\[(LEDBrain \/ |)).+(?: \/ .+)*?(?=]\(https:\/\/gitlab\.com\/ledbrain\/[a-z\-\/]+\))/;
+    const regexInner = `.+(?: \\/ .+)*?(?=]\\(https:\\/\\/gitlab\\.com\\/${process.env.GITLAB_ORG_NAME.toLowerCase()}\\/[a-z\\-\\/]+\\)`;
+    const regex = new RegExp(`(?<=\\[${process.env.GITLAB_ORG_NAME} / )${regexInner})|(?<=\\[)${regexInner}: Pipeline)`)
 
     const matches = post.embeds[0].description.match(regex);
 
