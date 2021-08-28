@@ -23,7 +23,7 @@ WebhookEvent.on('post', async (post: Message) => {
 
     if (!matches) return;
 
-    matches[0] = matches[0].replace(`${process.env.GITLAB_ORG_NAME} / `, '');
+    matches[0] = matches[0].replace(new RegExp(`${process.env.GITLAB_ORG_NAME} /(?: .*? \\/)* `), '');
 
     const channel = (await client.channels.fetch(
         process.env.CHANNEL_ID
