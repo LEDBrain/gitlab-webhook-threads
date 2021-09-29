@@ -17,11 +17,16 @@ WebhookEvent.on('post', async (post: Message) => {
     console.log(post);
 
     const regexInner = `.+(?: \\/ .+)*?(?=]\\(https:\\/\\/gitlab\\.com\\/${process.env.GITLAB_ORG_NAME.toLowerCase()}\\/[a-z\\-\\/]+\\)`;
-    const regex = new RegExp(`(?<=\\[${process.env.GITLAB_ORG_NAME} / )${regexInner})|(?<=\\[)${regexInner}: Pipeline)`)
+    const regex = new RegExp(`(?<=\\[${process.env.GITLAB_ORG_NAME} / )${regexInner})|(?<=\\[)${regexInner}: Pipeline)`);
 
     const matches = post.embeds[0].description.match(regex);
 
     if (!matches) return;
+
+    if (post.embeds[0].description.match(/Pipeline/)) {
+        if (post.embeds[0].description.match(/passed/)) post.embeds[0].color = 123456;
+        else if (post.embeds[0].description.match(/failed/)) post.embeds[0].color = 16711680;
+    }
 
     matches[0] = matches[0].replace(new RegExp(`${process.env.GITLAB_ORG_NAME} /(?: .*? \\/)* `), '');
 
