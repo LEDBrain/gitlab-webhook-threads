@@ -28,7 +28,7 @@ WebhookEvent.on('post', async (post: Message) => {
         else if (post.embeds[0].description.match(/failed/)) post.embeds[0].color = 16711680;
     }
 
-    matches[0] = matches[0].replace(new RegExp(`${process.env.GITLAB_ORG_NAME} /(?: .*? \\/)* `), '');
+    matches[0] = matches[0].replace(new RegExp(`${process.env.GITLAB_ORG_NAME} /(?: .*? \\/)* `), '').replace(/\//g, '–');
 
     const channel = (await client.channels.fetch(
         process.env.CHANNEL_ID
